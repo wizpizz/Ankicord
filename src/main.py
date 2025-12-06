@@ -245,7 +245,9 @@ class Ankicord():
             if time.time() - self.menu_entered_at >= self.idle_timeout_secs:
                 self.idle_active = True
                 self.rpc.clear()
-                self.start_time = round(time.time())
+                reset_start_time_when_idle = self.__cfg_val(self.main_cfg, 'reset_start_time_when_idle', bool)
+                if reset_start_time_when_idle:
+                    self.start_time = None
                 return True
         return False
 

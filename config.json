@@ -11,6 +11,7 @@
 			"spotify": "off",
 			"discord_client": "745326655395856514",
 			"hide_rpc_when_idle": "off",
+			"reset_start_time_when_idle": "off",
 			"idle_timeout_secs": 180
 		},
 		"statuses": {
