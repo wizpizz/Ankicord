@@ -10,3 +10,4 @@ __pycache__/*
 
 # from wiz
 .idea
+.vscode
