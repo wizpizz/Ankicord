@@ -3,7 +3,7 @@ import zipfile
 from datetime import datetime
 from _versions import __version__
 
-ADDON_NAME = f"Ankicord Custmize by Shige {__version__}"
+ADDON_NAME = f"Ankicord Customize by Shige {__version__}"
 
 
 def create_ankiaddon():
