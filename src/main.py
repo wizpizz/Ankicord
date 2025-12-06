@@ -140,12 +140,13 @@ class Ankicord():
     def __rpc_update(self) -> None:
         """Updates the Discord Rich Presence with provided details_message"""
         try:
-            hide_rpc_when_idle = self.__cfg_val(self.main_cfg, 'hide_rpc_when_idle', bool)
-            if hide_rpc_when_idle and self._should_hide_rpc():
-                return
 
             if not self.connected:
                 self.connect_rpc()
+
+            hide_rpc_when_idle = self.__cfg_val(self.main_cfg, 'hide_rpc_when_idle', bool)
+            if hide_rpc_when_idle and self._should_hide_rpc():
+                return
 
             if len(self.rpc_next_details) < 3 or len(self.rpc_next_state) < 3:
                 self.rpc.clear()
