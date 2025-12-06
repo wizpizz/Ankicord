@@ -296,7 +296,7 @@ class Ankicord():
         """Loop: call rpc update and wait 15 seconds."""
         while True:
             self.__rpc_update()
-            time.sleep(15)
+            time.sleep(self.__cfg_val(self.advanced_cfg, 'rpc_update_interval_secs', int))
 
 
 ac = Ankicord()

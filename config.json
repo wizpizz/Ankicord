@@ -18,6 +18,9 @@
 			"editing_status": "Adding cards",
 			"no_cards_left_txt": "No cards left",
 			"menu_status_no_cards": "Feeling good"
+		},
+		"advanced": {
+			"rpc_update_interval_secs": 15
 		}
 	}
 }
