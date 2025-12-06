@@ -247,7 +247,7 @@ class Ankicord():
                 self.rpc.clear()
                 reset_start_time_when_idle = self.__cfg_val(self.main_cfg, 'reset_start_time_when_idle', bool)
                 if reset_start_time_when_idle:
-                    self.start_time = None
+                    self.start_time = round(time.time())
                 return True
         return False
 
@@ -276,7 +276,6 @@ class Ankicord():
         elif state == "review":
             self.idle_active = False
             self.menu_entered_at = None
-            self.start_time = round(time.time())
 
             last_card = mw.reviewer.card
             if last_card is None:
@@ -295,7 +294,6 @@ class Ankicord():
         elif state == "browse":
             self.idle_active = False
             self.menu_entered_at = None
-            self.start_time = round(time.time())
 
             self.last_deck = None
             self.skip_edit = True
@@ -306,7 +304,6 @@ class Ankicord():
         elif state == "edit":
             self.idle_active = False
             self.menu_entered_at = None
-            self.start_time = round(time.time())
 
             self.last_deck = None
             self.rpc_next_details = self.__cfg_val(self.status_cfg,
