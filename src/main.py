@@ -260,6 +260,7 @@ class Ankicord():
             return
 
         if state == "deckBrowser":
+            self.idle_active = False
             self.menu_entered_at = time.time()
             self.last_deck = None
             if self.rpc_next_state != self.__cfg_val(self.status_cfg,
