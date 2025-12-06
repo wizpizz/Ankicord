@@ -36,6 +36,7 @@ class Ankicord():
         cfg = self.__get_resolved_cfg()
         self.main_cfg = cfg['main']
         self.status_cfg = cfg['statuses']
+        self.advanced_cfg = cfg['advanced']
 
         self.rpc_next_details = "   "
         self.rpc_next_state = "   "
