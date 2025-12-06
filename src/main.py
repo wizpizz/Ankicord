@@ -47,6 +47,10 @@ class Ankicord():
         self.cfg_disc_id = self.__cfg_val(self.main_cfg, 'discord_client', str)
         self.default_disc_id = "745326655395856514"
 
+        self.menu_entered_at = None
+        self.idle_active = False
+        self.idle_timeout_secs = self.__cfg_val(self.main_cfg, 'idle_timeout_secs', int)
+
         if self.__cfg_val(self.main_cfg, 'activity', bool):
             self.rpc_next_details = self.__cfg_val(self.status_cfg,
                                                     'menu_status',
@@ -135,6 +139,10 @@ class Ankicord():
     def __rpc_update(self) -> None:
         """Updates the Discord Rich Presence with provided details_message"""
         try:
+            hide_rpc_when_idle = self.__cfg_val(self.main_cfg, 'hide_rpc_when_idle', bool)
+            if hide_rpc_when_idle and self._should_hide_rpc():
+                return
+
             if not self.connected:
                 self.connect_rpc()
 
@@ -225,6 +233,20 @@ class Ankicord():
         else:
             self.rpc_next_state = paren_left + str(due_count) + " cards left" + paren_right
 
+    def _should_hide_rpc(self):
+        """
+        Hide the RPC when the user is idle. Return True if the RPC has been hidden. Return False otherwise.
+        """
+        if self.idle_active:
+            return True
+        if self.menu_entered_at and not self.idle_active:
+            if time.time() - self.menu_entered_at >= self.idle_timeout_secs:
+                self.idle_active = True
+                self.rpc.clear()
+                self.start_time = round(time.time())
+                return True
+        return False
+
     def on_state(self, state, _old_state, *args, **kwargs):
         """Take current state and old_state from hook; If browsing, skip
         'edit' hook; Call update"""
@@ -234,6 +256,7 @@ class Ankicord():
             return
 
         if state == "deckBrowser":
+            self.menu_entered_at = time.time()
             self.last_deck = None
             if self.rpc_next_state != self.__cfg_val(self.status_cfg,
                                                     'no_cards_left_txt',
@@ -247,6 +270,10 @@ class Ankicord():
                                                     str)
 
         elif state == "review":
+            self.idle_active = False
+            self.menu_entered_at = None
+            self.start_time = round(time.time())
+
             last_card = mw.reviewer.card
             if last_card is None:
                 return
@@ -262,6 +289,10 @@ class Ankicord():
             self.rpc_next_details = reviews_msg
 
         elif state == "browse":
+            self.idle_active = False
+            self.menu_entered_at = None
+            self.start_time = round(time.time())
+
             self.last_deck = None
             self.skip_edit = True
             self.rpc_next_details = self.__cfg_val(self.status_cfg,
@@ -269,6 +300,10 @@ class Ankicord():
                                                     str)
 
         elif state == "edit":
+            self.idle_active = False
+            self.menu_entered_at = None
+            self.start_time = round(time.time())
+
             self.last_deck = None
             self.rpc_next_details = self.__cfg_val(self.status_cfg,
                                                     'editing_status',
