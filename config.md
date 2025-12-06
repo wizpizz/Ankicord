@@ -24,6 +24,12 @@
 
 >**discord_client**: Use your own Discord Application with custom icons. Currently used icon names are: "anki", "spotify". (745326655395856514)
 
+>**hide_rpc_when_idle**: Hide the RPC when the user has been idle in the main menu for more than the specified timeout.
+
+>**idle_timeout_secs**: The timeout in seconds after which the RPC will be hidden if the user is idle in the main menu. (180 seconds by default)
+
+>**reset_start_time_when_idle**: Reset the start time when the user is idle in the main menu. (Does nothing if reset_start_time_when_idle is off)
+
 ### statuses
 If you do not want your rich presence to be displayed when in a certain state, set it to "", for example: "menu_status": "".<br>
 If you want the 1st field to be empty for a certain state, set it to "&nbsp;&nbsp;&nbsp;" (3 spaces), for example "menu_status": "&nbsp;&nbsp;&nbsp;".
